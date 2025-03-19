@@ -21,6 +21,6 @@ jobs:
         run: |
           git config --global user.name "yuhe02"
           git config --global user.email "yamasaki.yuhei@revamp.co.jp"
-          git add docs/openAPI/index.json
+          git add docs/urls/index.json
           git commit -m "Auto-generate openAPI index.json" || exit 0
           git push
