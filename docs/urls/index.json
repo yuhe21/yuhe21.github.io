@@ -1,7 +1,7 @@
 {
   "files": [
-    "openapi.yml",
-    "openapi2.yml",
-    "openapi3.yml"
+    "./openAPI/openapi.yml",
+    "./openAPI/openapi2.yml",
+    "./openAPI/openapi3.yml"
   ]
 }
