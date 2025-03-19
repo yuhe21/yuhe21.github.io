@@ -20,7 +20,7 @@
                 const response = await fetch("./urls/index.json");
                 if (!response.ok) throw new Error("JSON fetch error");
 
-                const files = await response.json()?.files;
+                const urls = await response.json()?.files;
                 window.ui = SwaggerUIBundle({
                     urls: urls,
                     dom_id: '#swagger-ui',
