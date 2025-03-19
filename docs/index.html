@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Swagger UI with Vue.js</title>
+    <title>Swagger UI with Vue.js Accordion</title>
     <link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
     <link rel="stylesheet" type="text/css" href="index.css" />
     <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
@@ -10,44 +10,84 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
         body {
-            display: flex;
             margin: 0;
+            font-family: Arial, sans-serif;
         }
-        #side_var {
-            width: 250px;
-            padding: 10px;
-            border-right: 1px solid #ccc;
+        #app {
+            width: 100%;
+            padding: 20px;
+        }
+        .accordion {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             background: #f8f9fa;
-            height: 100vh;
+            overflow: hidden;
+        }
+        .accordion-item {
+            border-bottom: 1px solid #ccc;
+        }
+        .accordion-header {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+        }
+        .accordion-header:hover {
+            background: #0056b3;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: white;
+        }
+        .accordion-content.show {
+            max-height: 200px;
             overflow-y: auto;
         }
-        #swagger-container {
-            flex: 1;
+        .accordion-content ul {
+            list-style: none;
             padding: 10px;
+            margin: 0;
         }
-        a {
-            display: block;
+        .accordion-content li {
             padding: 5px;
+        }
+        .accordion-content a {
             text-decoration: none;
             color: #007bff;
         }
-        a:hover {
+        .accordion-content a:hover {
             text-decoration: underline;
+        }
+        #swagger-container {
+            margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
+
 <body>
     <div id="app">
-        <div id="side_var">
-            <h3>API List</h3>
-            <ul>
-                <li v-for="file in apiFiles" :key="file">
-                    <a href="#" @click.prevent="loadSwagger(file)">{{ file }}</a>
-                </li>
-            </ul>
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header" @click="toggleAccordion">📂 API List</div>
+                <div class="accordion-content" :class="{ show: isOpen }">
+                    <ul>
+                        <li v-for="file in apiFiles" :key="file">
+                            <a href="#" @click.prevent="loadSwagger(file)">{{ file }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div id="swagger-container">
-            <div id="swagger-ui-placeholder"></div> <!-- ここに Swagger UI を挿入 -->
+            <div id="swagger-ui-placeholder"></div>
         </div>
     </div>
     <script src="./swagger-ui-bundle.js" charset="UTF-8"></script>
@@ -58,7 +98,8 @@
         createApp({
             data() {
                 return {
-                    apiFiles: []
+                    apiFiles: [],
+                    isOpen: false // アコーディオンの開閉状態
                 };
             },
             async created() {
@@ -71,6 +112,9 @@
                 }
             },
             methods: {
+                toggleAccordion() {
+                    this.isOpen = !this.isOpen;
+                },
                 loadSwagger(file) {
                     const yamlUrl = `./openAPI/${file}`;
                     const container = document.getElementById("swagger-ui-placeholder");
@@ -87,6 +131,7 @@
                         ],
                         layout: "StandaloneLayout",
                     });
+                    this.isOpen = false;
                 }
             }
         }).mount("#app");
