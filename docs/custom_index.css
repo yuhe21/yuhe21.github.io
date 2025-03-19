@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+#app {
+    width: 100%;
+    padding: 20px;
+}
+.accordion {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f8f9fa;
+    overflow: hidden;
+}
+.accordion-item {
+    border-bottom: 1px solid #ccc;
+}
+.accordion-header {
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+}
+.accordion-header:hover {
+    background: #0056b3;
+}
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: white;
+}
+.accordion-content.show {
+    max-height: 200px;
+    overflow-y: auto;
+}
+.accordion-content ul {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+.accordion-content li {
+    padding: 5px;
+}
+.accordion-content a {
+    text-decoration: none;
+    color: #007bff;
+}
+.accordion-content a:hover {
+    text-decoration: underline;
+}
+#swagger-container {
+    margin-top: 20px;
+}
