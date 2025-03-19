@@ -1,32 +1,62 @@
-<!-- HTML for static distribution bundle build -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>Swagger UI</title>
     <link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
     <link rel="stylesheet" type="text/css" href="index.css" />
     <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="swagger-ui"></div>
-    <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
-    <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
-    <script src="./swagger-initializer.js" charset="UTF-8"> </script>
+    <div id="api-list" style="display: none;">
+        <h1>API List</h1>
+        <ul id="list"></ul>
+    </div>
+
+    <script src="./swagger-ui-bundle.js" charset="UTF-8"></script>
+    <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"></script>
+
     <script>
-      window.onload = () => {
-        window.ui = SwaggerUIBundle({
-          url: './openAPI/openapi.yml',
-          dom_id: '#swagger-ui',
-          presets: [
-            SwaggerUIBundle.presets.apis,
-            SwaggerUIStandalonePreset
-          ],
-          layout: "StandaloneLayout",
-        });
-      };
+        window.onload = async () => {
+            const params = new URLSearchParams(window.location.search);
+            const yamlUrl = params.get("url");
+            if (yamlUrl) {
+                document.getElementById("swagger-ui").style.display = "block";
+                document.getElementById("api-list").style.display = "none";
+                window.ui = SwaggerUIBundle({
+                    url: yamlUrl,
+                    dom_id: '#swagger-ui',
+                    presets: [
+                        SwaggerUIBundle.presets.apis,
+                        SwaggerUIStandalonePreset
+                    ],
+                    layout: "StandaloneLayout",
+                });
+            } else {
+                document.getElementById("swagger-ui").style.display = "none";
+                document.getElementById("api-list").style.display = "block";
+                try {
+                    const response = await fetch("./urls/index.json");
+                    if (!response.ok) throw new Error("JSON fetch error");
+                    const files = await response.json();
+                    const listElement = document.getElementById("list");
+                    files.forEach(file => {
+                        const li = document.createElement("li");
+                        const a = document.createElement("a");
+                        a.href = `?url=./openAPI/${file}`;
+                        a.textContent = file;
+                        li.appendChild(a);
+                        listElement.appendChild(li);
+                    });
+                } catch (error) {
+                    console.error("Error fetching YAML files:", error);
+                    document.getElementById("api-list").innerHTML = "<p>YAMLファイルの取得に失敗しました。</p>";
+                }
+            }
+        };
     </script>
-  </body>
+</body>
 </html>

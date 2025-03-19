@@ -1,0 +1,26 @@
+name: Generate openAPI index
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Generate index.json
+        run: |
+          cd docs/openAPI
+          ls *.yaml *.yml 2>/dev/null | jq -R -s -c 'split("\n")[:-1]' > docs/urls/index.json
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "yuhe02"
+          git config --global user.email "yamasaki.yuhei@revamp.co.jp"
+          git add docs/openAPI/index.json
+          git commit -m "Auto-generate openAPI index.json" || exit 0
+          git push
