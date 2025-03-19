@@ -1,5 +1,7 @@
-[
-  "openapi.yml", 
-  "openapi2.yml", 
-  "openapi3.yml", 
-]
+{
+  "files": [
+    "openapi.yml",
+    "openapi2.yml",
+    "openapi3.yml"
+  ]
+}
