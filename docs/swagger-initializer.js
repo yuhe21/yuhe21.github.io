@@ -5,23 +5,23 @@ window.onload = async function() {
   try {
     const response = await fetch("./urls/index.json");
     if (!response.ok) throw new Error("JSON fetch error");
-    const files = await response.json()?.files;
+    const urls = await response.json()?.files;
+    window.ui = SwaggerUIBundle({
+      urls: urls,
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIStandalonePreset
+      ],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl
+      ],
+      layout: "StandaloneLayout"
+    });
   } catch (error) {
-    console.error("Error loading Swagger files:", error);
-}
-  window.ui = SwaggerUIBundle({
-    url: "https://petstore.swagger.io/v2/swagger.json",
-    dom_id: '#swagger-ui',
-    deepLinking: true,
-    presets: [
-      SwaggerUIBundle.presets.apis,
-      SwaggerUIStandalonePreset
-    ],
-    plugins: [
-      SwaggerUIBundle.plugins.DownloadUrl
-    ],
-    layout: "StandaloneLayout"
-  });
+      console.error("Error loading Swagger files:", error);
+  }
 
   //</editor-fold>
 };
