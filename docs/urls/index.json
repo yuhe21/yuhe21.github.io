@@ -1,7 +1,16 @@
 {
   "files": [
-    "./openAPI/openapi.yml",
-    "./openAPI/openapi2.yml",
-    "./openAPI/openapi3.yml"
+    {
+      "url": "./openAPI/openapi.yml", 
+      "name": "openAPI.yml"
+    },
+    {
+      "url": "./openAPI/openapi2.yml", 
+      "name": "openAPI2.yml"
+    },
+    {
+      "url": "./openAPI/openapi3.yml", 
+      "name": "openAPI3.yml"
+    }
   ]
 }
