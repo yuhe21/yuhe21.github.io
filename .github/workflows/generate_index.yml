@@ -15,7 +15,7 @@ jobs:
       - name: Generate index.json
         run: |
           cd docs/openAPI
-          ls *.yaml *.yml 2>/dev/null | jq -R -s -c 'split("\n")[:-1]' > docs/urls/index.json
+          ls *.yaml *.yml 2>/dev/null | jq -R -s -c 'split("\n")[:-1]' > ../urls/index.json
 
       - name: Commit and push changes
         run: |
